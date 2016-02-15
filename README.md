@@ -18,9 +18,6 @@ The [Linter][] and package will be installed for you to provide an interface
 to this package. If you are using an alternative debugging interface that
 supports linter plugins simply disable [Linter][].
 
-If you do not already have it installed, [language-clojure][] will also be
-installed for you.
-
 To install this package either search for it from within Atom's settings menu
 or run the following command.
 
