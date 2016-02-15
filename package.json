@@ -1,6 +1,6 @@
 {
   "name": "linter-eastwood",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": false,
   "description": "Atom linter plugin for Clojure using `lein eastwood`.",
   "repository": {
