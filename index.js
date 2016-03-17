@@ -3,7 +3,6 @@
 
 import path from 'path'
 import { CompositeDisposable } from 'atom'
-console.log('loading')
 export default {
   config: {
     leinExecutablePath: {
@@ -33,11 +32,9 @@ export default {
     return {
       name: 'eastwood',
       grammarScopes: ['source.clojure'],
-      scope: 'project',
+      scope: 'file',
       lintOnFly: false,
       lint: textEditor => {
-        console.log('calling linter3')
-
         const filePath = textEditor.getPath()
         const fileDir = path.dirname(filePath)
         const regex = new RegExp(/^([^/].+):(\d+):(\d+): (.+): (.*)$/)
