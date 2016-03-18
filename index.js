@@ -35,12 +35,17 @@ export default {
       scope: 'file',
       lintOnFly: false,
       lint: textEditor => {
+        const regex = new RegExp(/^([^/].+):(\d+):(\d+): (.+)$/)
         const filePath = textEditor.getPath()
-        const fileDir = path.dirname(filePath)
-        const regex = new RegExp(/^([^/].+):(\d+):(\d+): (.+): (.*)$/)
 
-        return helpers.exec(this.leinPath, ['eastwood'],
-          { cwd: fileDir }
+        const firstLine = textEditor.getBuffer().getLines()[0]
+        const nsRegex = new RegExp(/^\(ns\ (\S+)$/)
+        const ns = nsRegex.exec(firstLine)[1]
+        console.log("Linting namesapce '" + ns + "' with lein eastwood.")
+        return helpers.exec(
+          this.leinPath,
+          ['trampoline', 'eastwood', "{:namespaces [" + ns + "]}"],
+          {cwd: path.dirname(filePath)}
         ).then(eastwoodOut => eastwoodOut
           .split(/\n/)
           .map(l => regex.exec(l))
@@ -49,14 +54,12 @@ export default {
             file: m[1],
             line: m[2],
             col: m[3],
-            linter: m[4],
-            msg: m[5]
+            msg: m[4]
           }))
           .map(e => ({
             type: 'Error',
             text: e.msg,
-            name: e.linter,
-            filePath: e.file,
+            filePath: filePath,
             range: helpers.rangeFromLineNumber(textEditor, e.line, e.col)
           }))
         )
